@@ -58,9 +58,6 @@ public class CheckoutBasketTest {
         basket.setCheckoutItems(Stream.of(item1, item2, item3, item4).collect(Collectors.toList()));
 
         // then
-        assertEquals(2, basket.getCheckoutItems().stream().filter(
-                item -> item.getProduct().equals(soup)
-                        && item.getPercentageDiscount() == BigDecimal.ZERO)
-                .count());
+        assertEquals(2,basket.findItemsWithoutDiscount(soup).size());
     }
 }

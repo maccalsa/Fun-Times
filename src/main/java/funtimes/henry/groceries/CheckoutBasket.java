@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Data
@@ -23,6 +24,12 @@ public class CheckoutBasket {
     public static class CheckoutItem {
         private final Product product;
         private BigDecimal percentageDiscount = BigDecimal.ZERO;
+
+        public BigDecimal getItemPrice() {
+            BigDecimal cost = product.getCost();
+            BigDecimal discount = percentageDiscount;
+            return discount != BigDecimal.ZERO ? discount.multiply(cost).setScale(2) : cost;
+        }
     }
 
 
@@ -40,10 +47,20 @@ public class CheckoutBasket {
      * @param triggerProduct
      * @return
      */
-    public Optional<CheckoutItem> findItemWithoutDiscount(Product triggerProduct) {
-        return checkoutItems.stream().filter(
-                        item -> item.getProduct().equals(triggerProduct)
-                                && item.getPercentageDiscount() == BigDecimal.ZERO)
-                .findFirst();
+    public List<CheckoutItem> findItemsWithoutDiscount(Product triggerProduct) {
+        return checkoutItems.stream()
+                .filter(item -> item.getProduct().equals(triggerProduct)
+                        && item.getPercentageDiscount() == BigDecimal.ZERO)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     *
+     * @return
+     */
+    public BigDecimal getTotal() {
+        return checkoutItems.stream().map(CheckoutItem::getItemPrice)
+                .reduce(BigDecimal.ZERO, (a, b) -> a.add(b)).setScale(2);
+
     }
 }
