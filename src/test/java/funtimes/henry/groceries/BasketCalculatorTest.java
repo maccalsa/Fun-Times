@@ -7,13 +7,16 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static funtimes.henry.groceries.data.Product.APPLES;
 import static funtimes.henry.groceries.data.Product.BREAD;
+import static funtimes.henry.groceries.data.Product.MILK;
 import static funtimes.henry.groceries.data.Product.SOUP;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
@@ -38,7 +41,7 @@ public class BasketCalculatorTest {
         BasketCalculator calculator = new BasketCalculator(Collections.emptyList());
 
         // when
-        CheckoutBasket checkoutBasket = calculator.calculateBasket(new ShoppingBasket());
+        CheckoutBasket checkoutBasket = calculator.calculateBasket(new ShoppingBasket(), null);
 
         // then
         assertNotNull(checkoutBasket);
@@ -51,7 +54,7 @@ public class BasketCalculatorTest {
         BasketCalculator calculator = new BasketCalculator(Collections.emptyList());
 
         // when
-        CheckoutBasket checkoutBasket = calculator.calculateBasket(new ShoppingBasket());
+        CheckoutBasket checkoutBasket = calculator.calculateBasket(new ShoppingBasket(), null);
 
         // then
         assertNotNull(checkoutBasket);
@@ -68,7 +71,7 @@ public class BasketCalculatorTest {
         BasketCalculator calculator = new BasketCalculator(Collections.emptyList());
 
         // when
-        CheckoutBasket checkoutBasket = calculator.calculateBasket(shoppingBasket);
+        CheckoutBasket checkoutBasket = calculator.calculateBasket(shoppingBasket, null);
 
         // then
         assertNotNull(checkoutBasket);
@@ -163,12 +166,93 @@ public class BasketCalculatorTest {
         basket.addToBasket(bread, 2);
 
         // when
-        CheckoutBasket checkoutBasket = calculator.calculateBasket(basket);
+        CheckoutBasket checkoutBasket = calculator.calculateBasket(basket, LocalDate.now());
 
         // then
         assertNotNull(checkoutBasket);
         assertEquals(5, checkoutBasket.getCheckoutItems().size());
         assertEquals(BigDecimal.valueOf(3.15), checkoutBasket.getTotal());
+
+    }
+
+
+    /**
+     * Price a basket containing: 6 apples and a bottle of milk, bought today, Expected total cost =
+     * 1.90;
+     */
+    @Test
+    public void calculate_basket_Test2() {
+        // given
+        LocalDateTime now = LocalDateTime.now();
+        Product apples = products.get(APPLES);
+        Product milk = products.get(MILK);
+
+        BasketCalculator calculator = new BasketCalculator(discounts);
+
+        ShoppingBasket basket = new ShoppingBasket();
+        basket.addToBasket(apples, 6);
+        basket.addToBasket(milk, 1);
+
+        // when
+        CheckoutBasket checkoutBasket = calculator.calculateBasket(basket, now.toLocalDate());
+
+        assertNotNull(checkoutBasket);
+        assertEquals(7, checkoutBasket.getCheckoutItems().size());
+        assertEquals(BigDecimal.valueOf(1.9).setScale(2), checkoutBasket.getTotal());
+
+    }
+
+    /**
+     * Price a basket containing: 6 apples and a bottle of milk, bought in 5 days time, Expected total
+     * cost = 1.84;
+     */
+    @Test
+    public void calculate_basket_Test3() {
+        // given
+        LocalDateTime now = LocalDateTime.now().plusDays(5);
+        Product apples = products.get(APPLES);
+        Product milk = products.get(MILK);
+
+        BasketCalculator calculator = new BasketCalculator(discounts);
+
+        ShoppingBasket basket = new ShoppingBasket();
+        basket.addToBasket(apples, 6);
+        basket.addToBasket(milk, 1);
+
+        // when
+        CheckoutBasket checkoutBasket = calculator.calculateBasket(basket, now.toLocalDate());
+
+        assertNotNull(checkoutBasket);
+        assertEquals(7, checkoutBasket.getCheckoutItems().size());
+        assertEquals(BigDecimal.valueOf(1.84), checkoutBasket.getTotal());
+
+    }
+
+    /**
+     * Price a basket containing: 3 apples, 2 tins of soup and a loaf of bread, bought in 5 days time,
+     * Expected total cost = 1.97.
+     */
+    @Test
+    public void calculate_basket_Test4() {
+        // given
+        LocalDateTime now = LocalDateTime.now().plusDays(5);
+        Product soup = products.get(SOUP);
+        Product apples = products.get(APPLES);
+        Product bread = products.get(BREAD);
+
+        BasketCalculator calculator = new BasketCalculator(discounts);
+
+        ShoppingBasket basket = new ShoppingBasket();
+        basket.addToBasket(soup, 2);
+        basket.addToBasket(apples, 3);
+        basket.addToBasket(bread, 1);
+
+        // when
+        CheckoutBasket checkoutBasket = calculator.calculateBasket(basket, now.toLocalDate());
+
+        assertNotNull(checkoutBasket);
+        assertEquals(6, checkoutBasket.getCheckoutItems().size());
+        assertEquals(BigDecimal.valueOf(1.97), checkoutBasket.getTotal());
 
     }
 
