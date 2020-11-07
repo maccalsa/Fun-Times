@@ -16,7 +16,7 @@ public class Discount {
 
     // A product item that is affected.
     private Product targetProduct;
-    private Float discountPercentage;
+    private BigDecimal discountPercentage;
 
     // Assume the finest granularity is days.
     private LocalDate validFrom;

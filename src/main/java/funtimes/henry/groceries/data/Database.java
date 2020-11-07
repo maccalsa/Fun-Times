@@ -3,6 +3,7 @@ package funtimes.henry.groceries.data;
 
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,10 +30,10 @@ public class Database {
      *
      */
     private void buildProjects() {
-        products.add(Product.builder().name("soup").unit("tin").cost(Float.valueOf(0.65f)).build());
-        products.add(Product.builder().name("bread").unit("loaf").cost(Float.valueOf(0.8f)).build());
-        products.add(Product.builder().name("milk").unit("bottle").cost(Float.valueOf(1.3f)).build());
-        products.add(Product.builder().name("apples").unit("single").cost(Float.valueOf(0.1f)).build());
+        products.add(Product.builder().name("soup").unit("tin").cost(BigDecimal.valueOf(0.65).setScale(2)).build());
+        products.add(Product.builder().name("bread").unit("loaf").cost(BigDecimal.valueOf(0.80).setScale(2)).build());
+        products.add(Product.builder().name("milk").unit("bottle").cost(BigDecimal.valueOf(1.30).setScale(2)).build());
+        products.add(Product.builder().name("apples").unit("single").cost(BigDecimal.valueOf(0.10).setScale(2)).build());
     }
 
     /**
@@ -45,7 +46,7 @@ public class Database {
                 .description("Buy 2 tins of soup and get a loaf of bread half price")
                 .triggerProduct( products.get(0))
                 .triggerQuantity(2)
-                .discountPercentage(Float.valueOf(0.5f))
+                .discountPercentage(BigDecimal.valueOf(0.5))
                 .targetProduct(products.get(1))
                 .validFrom(now.minusDays(1).toLocalDate())
                 .validTo(now.plusDays(7).toLocalDate()).build());
@@ -60,7 +61,7 @@ public class Database {
                 .description("Apples have a 10% discount")
                 .triggerProduct( products.get(3))
                 .triggerQuantity(1)
-                .discountPercentage(Float.valueOf(0.9f))
+                .discountPercentage(BigDecimal.valueOf(0.9))
                 .targetProduct(products.get(3))
                 .validFrom(startDate)
                 .validTo(endDate).build());

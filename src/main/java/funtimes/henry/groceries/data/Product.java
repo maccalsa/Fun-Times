@@ -13,5 +13,5 @@ public class Product {
 
     private String name;
     private String unit;
-    private Float cost;
+    private BigDecimal cost;
 }
