@@ -11,6 +11,11 @@ import java.math.BigDecimal;
 @Builder
 public class Product {
 
+    public static final int SOUP = 0;
+    public static final int BREAD = 1;
+    public static final int MILK = 2;
+    public static final int APPLES = 3;
+
     private String name;
     private String unit;
     private BigDecimal cost;

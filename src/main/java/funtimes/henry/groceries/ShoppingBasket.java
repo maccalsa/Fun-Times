@@ -3,18 +3,18 @@ package funtimes.henry.groceries;
 import funtimes.henry.groceries.data.Product;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Data
 public class ShoppingBasket {
 
-    private List<ShoppingBasketItem> shoppingBasketItems = new ArrayList<>();
+    private Map<Product, Integer> shoppingBasketItems = new HashMap<>();
 
-    @Data
-    public static class ShoppingBasketItem {
-        private Product product;
-        private int quantity;
+    public void addToBasket(Product product, final int amount) {
+        Integer value = shoppingBasketItems.putIfAbsent(product, amount);
+        Optional.ofNullable(value).ifPresent(x-> shoppingBasketItems.put(product, value + amount));
     }
 
 
