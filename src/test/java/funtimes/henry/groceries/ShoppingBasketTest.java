@@ -10,6 +10,7 @@ import java.util.List;
 
 import static funtimes.henry.groceries.data.Product.SOUP;
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
 public class ShoppingBasketTest {
 
@@ -39,6 +40,20 @@ public class ShoppingBasketTest {
         // then
         assertEquals(Integer.valueOf(4), basket.getShoppingBasketItems().get(soup));
 
+    }
+
+    @Test
+    public void testCgotlear() {
+        // given
+        ShoppingBasket basket = new ShoppingBasket();
+        Product soup = products.get(SOUP);
+        basket.addToBasket(soup, 2);
+
+        // when
+        basket.clear();
+
+        // then
+        assertTrue(basket.getShoppingBasketItems().isEmpty());
     }
 
 }

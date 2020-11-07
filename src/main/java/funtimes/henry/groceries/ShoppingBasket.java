@@ -16,6 +16,10 @@ public class ShoppingBasket {
         Integer value = shoppingBasketItems.putIfAbsent(product, amount);
         Optional.ofNullable(value).ifPresent(x-> shoppingBasketItems.put(product, value + amount));
     }
+    public void clear() {
+        shoppingBasketItems.clear();
+    }
+
 
 
 }
