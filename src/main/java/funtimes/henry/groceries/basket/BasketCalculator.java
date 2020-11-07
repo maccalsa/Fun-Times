@@ -1,4 +1,4 @@
-package funtimes.henry.groceries;
+package funtimes.henry.groceries.basket;
 
 import funtimes.henry.groceries.data.Discount;
 import lombok.Data;

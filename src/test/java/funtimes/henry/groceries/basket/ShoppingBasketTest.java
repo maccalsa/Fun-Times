@@ -1,5 +1,6 @@
-package funtimes.henry.groceries;
+package funtimes.henry.groceries.basket;
 
+import funtimes.henry.groceries.basket.ShoppingBasket;
 import funtimes.henry.groceries.data.Database;
 import funtimes.henry.groceries.data.Discount;
 import funtimes.henry.groceries.data.Product;
