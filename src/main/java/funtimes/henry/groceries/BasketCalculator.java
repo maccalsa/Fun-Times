@@ -20,6 +20,11 @@ public class BasketCalculator {
             return checkoutBasket;
         }
 
+        // Expand Shopping basket to Checkout Basket
+        basket.getShoppingBasketItems().entrySet().forEach(x->
+                checkoutBasket.addCheckoutItem(x.getKey(), x.getValue())
+        );
+
         return checkoutBasket;
     }
 }
