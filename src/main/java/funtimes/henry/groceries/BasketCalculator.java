@@ -4,7 +4,9 @@ import funtimes.henry.groceries.data.Discount;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Data
@@ -12,6 +14,22 @@ public class BasketCalculator {
 
     private final List<Discount> discountList;
 
+    /**
+     *
+     * @param today
+     * @return
+     */
+    List<Discount> activeDiscounts(LocalDate today) {
+        return discountList.stream()
+                .filter(discount -> discount.inDate(today))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     *
+     * @param basket
+     * @return
+     */
     public CheckoutBasket calculateBasket(ShoppingBasket basket) {
         CheckoutBasket checkoutBasket = new CheckoutBasket();
 

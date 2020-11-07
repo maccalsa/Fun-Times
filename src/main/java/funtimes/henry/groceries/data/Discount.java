@@ -23,4 +23,10 @@ public class Discount {
     // Assume the finest granularity is days.
     private LocalDate validFrom;
     private LocalDate validTo;
+
+    public boolean inDate(LocalDate now) {
+        return (validFrom.isEqual(now) || validFrom.isBefore(now)) &&
+                (validTo.isEqual(now) || validTo.isAfter(now));
+
+    }
 }
