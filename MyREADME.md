@@ -25,16 +25,16 @@ where:
 
 ## Up and running
 
-the application has a complement of unit tests and a cucumber test that verified all scenarios. It comes with mvn, so no mvn installation is required. The jar executable, however it is not a fat jar, so will need a local mvn repsitory.
+the application has a complement of unit tests and a cucumber test that verifiy all scenarios. It comes with mvn, so no mvn installation is required. The jar executable however it is not a fat jar, so will need a local mvn repsitory.
 
-### Unit + cucumber tests can berun using the folowing.
+### Unit + cucumber tests can be run using the following.
 
 `mvn clean test`
 
-#### The applciation can be built using the following
+#### The application can be built using the following
 
 `mvn clean package`
 
-## The applciation can be started using
+## The application can be started using
 
 `java -jar target/groceries-1.0-SNAPSHOT.jar`
